@@ -36,12 +36,13 @@ http://central.maven.org/maven2
 1. Optionally, input files may be placed under *C:\SITA_TEST_TASK\IN* before deploying the application or file(s) may also be placed after application is deployed on any servlet container like tomcat.
 2. To run the application on Tomcat place the generated war file in *%CATALINA_HOME%\webapps* and start Tomcat server. 
 3. You may also run the application on provided embedded jetty server through maven.
-5. To run the application on Tomcat from maven, run **mvn clean install tomcat:run-war** command from command prompt.
+4. To run the application on Tomcat from maven, run **mvn clean install tomcat:run-war** command from command prompt.
 5. To run the application on jetty from maven, run **mvn clean install jetty:run** command from command prompt.
-7. To check if application is up and running hit following URL:
+6. To check if application is up and running hit following URL:
 http://localhost:8080/sita-test-task/
 
-6. Verify the results in *C:\SITA_TEST_TASK\OUT*, *C:\SITA_TEST_TASK\PROCESSED* and *C:\SITA_TEST_TASK\ERROR*.
+7. Verify the results in *C:\SITA_TEST_TASK\OUT*, *C:\SITA_TEST_TASK\PROCESSED* and *C:\SITA_TEST_TASK\ERROR*.
+8. Log location *C:\SITA_TEST_TASK\logs*
 
 ## Process Flow
 1. When Tomcat/Glassfish start-up and application is deployed, the *inbound-channel-adapter* will start automatically since we have configured auto-startup value to true.
