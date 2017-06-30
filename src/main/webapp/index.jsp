@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>SITA TEST TASK Application</title>
+<title>File Processing Utility Application</title>
 </head>
  <body>
-	<center><h1>Welcome to SITA TEST TASK</h1>
+	<center><h1>Welcome to File Processing Utility</h1>
 	<div><h2>File processing utility status : <font color="white" style="background-color: green">RUNNING</font></h2></div></center>
 
 	<div>
@@ -32,7 +32,8 @@ The application is responsible for:
 <li> apache commons 1.3.2</li>
 </ul>
 
-<b>JDK 1.6 and above is required. Application is tested on Tomcat and Jetty.</b>
+<b><i>JDK 1.6 and above is required.
+Application is tested on Tomcat and Jetty.</i></b>
 
 <h2>Maven repository to download dependencies</h2>
 <a href="http://central.maven.org/maven2">http://central.maven.org/maven2</a>
@@ -62,6 +63,7 @@ The application is responsible for:
 
 <li>Verify the results in <i>C:\SITA_TEST_TASK\OUT</i>, <i>C:\SITA_TEST_TASK\PROCESSED</i> and <i>C:\SITA_TEST_TASK\ERROR</i>.</li>
 </ol>
+<li>Application Log location C:\SITA_TEST_TASK\logs\sitaTestTask.log</li>
 
 <h2>Process Flow</h2>
 <ol>
