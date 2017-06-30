@@ -19,7 +19,7 @@ public class Constants {
     /** Message header original message key. **/
     public static final String MESSAGE_HEADER_ORIGINAL_MESSAGE_KEY = "original_message";
     /** File received Message. **/
-    public static final String MSG_RECEIVED_FILE = "File: '%s' received for procesing!!!";
+    public static final String MSG_RECEIVED_FILE = "File: '%s' received for processing!!!";
     /** Process file Message. **/
     public static final String MSG_PROCESS_FILE = "Processing Message (file)";
     /** Building output file Message. **/
