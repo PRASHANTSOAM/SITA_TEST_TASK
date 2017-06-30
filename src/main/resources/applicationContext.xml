@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-file="http://www.springframework.org/schema/integration/file"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/integration
+    http://www.springframework.org/schema/integration/spring-integration.xsd
+    http://www.springframework.org/schema/integration/file
+    http://www.springframework.org/schema/integration/file/spring-integration-file.xsd
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:property-placeholder location="classpath:application.properties" />
+
+	<!-- In-bound channel -->
+	<int-file:inbound-channel-adapter id="incomingFilesChannelAdapter"
+		directory="${file.base.dir}\\IN" filename-pattern="*.txt"
+		auto-startup="true">
+		<int:poller fixed-rate="${polling.interval}"></int:poller>
+	</int-file:inbound-channel-adapter>
+
+	<!-- Transformer (file to string) -->
+	<int-file:file-to-string-transformer
+		input-channel="incomingFilesChannelAdapter" output-channel="processFileChannel"
+		charset="UTF-8" />
+
+	<!-- Service activator -->
+	<int:service-activator input-channel="processFileChannel"
+		ref="messageProcesser" method="processMessage" output-channel="messageSplitterInputChannel" />
+	<bean id="messageProcesser" class="aero.sita.asl.tasks.service.FileProcessService"></bean>
+
+	<!-- Splitter configuration -->
+	<int:splitter id="splitter" ref="messageSplitter" method="splitFileMessage"
+		input-channel="messageSplitterInputChannel" output-channel="headerValueRouterChannel" />
+	<bean id="messageSplitter" class="aero.sita.asl.tasks.splitters.MessageSplitter" />
+
+	<!-- Router configuration -->
+	<int:header-value-router id="headerValueRouter"
+		input-channel="headerValueRouterChannel" default-output-channel="errorFileChannel"
+		header-name="status">
+		<int:mapping value="OUTPUT" channel="outputFileChannel" />
+		<int:mapping value="PROCESSED" channel="processedFileChannel" />
+		<int:mapping value="ERROR" channel="errorFileChannel" />
+	</int:header-value-router>
+
+	<!-- Out-bound channels -->
+	<int-file:outbound-channel-adapter
+		id="outputFileChannel" directory="${file.base.dir}\\${folder.name.out}"
+		auto-create-directory="true" filename-generator="outputFileNameGenerator" />
+
+	<int-file:outbound-channel-adapter
+		id="processedFileChannel" directory="${file.base.dir}\\${folder.name.processed}"
+		auto-create-directory="true" filename-generator="processedFileNameGenerator"
+		delete-source-files="true" />
+
+	<int-file:outbound-channel-adapter
+		id="errorFileChannel" directory="${file.base.dir}\\${folder.name.error}"
+		auto-create-directory="true" filename-generator="errorFileNameGenerator"
+		delete-source-files="true" />
+
+	<!-- Filename generators for newly generated files -->
+	<bean id="outputFileNameGenerator"
+		class="org.springframework.integration.file.DefaultFileNameGenerator">
+		<property name="expression"
+			value="headers[${default.header.key.file.name}] + '${file.name.postfix.output}'" />
+	</bean>
+	<bean id="processedFileNameGenerator"
+		class="org.springframework.integration.file.DefaultFileNameGenerator">
+		<property name="expression"
+			value="headers[${default.header.key.file.name}] + '${file.name.postfix.processed}'" />
+	</bean>
+	<bean id="errorFileNameGenerator"
+		class="org.springframework.integration.file.DefaultFileNameGenerator">
+		<property name="expression"
+			value="headers[${default.header.key.file.name}] + '${file.name.postfix.error}'" />
+	</bean>
+</beans>
