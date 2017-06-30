@@ -1,4 +1,4 @@
-# SITA_TEST_TASK
+# File Processing Utility
 
 ## Task Detail: 
 There will be a series of files placed into the directory (C:\SITA_TEST_TASK\IN) with a number on each line.
@@ -16,9 +16,9 @@ The application is responsible for
 * junit 4.10
 * apache commons 1.3.2
 
-JDK 1.6 and above is required.
+*JDK 1.6 and above is required.*
 
-Application is tested on Tomcat and Jetty.
+*Application is tested on Tomcat and Jetty.*
 
 ## Maven repository to download dependencies
 http://central.maven.org/maven2
@@ -29,20 +29,18 @@ http://central.maven.org/maven2
 ## Build the application
 1. From the command prompt run mvn clean install
 
-## Note
-1. It is assumed that the input files will be placed under *C:\SITA_TEST_TASK\IN*, however we can configure this value in *application.properties* file which is available at *src/main/resources*
+## Assumptions
+1. It is assumed that the input files will be placed under *C:\SITA_TEST_TASK\IN*, however we can configure this value in *application.properties* file which is available at *src/main/resources*, same can be placed anywhere in classpath say *%CATALINA_HOME%\lib*.
 
 ## Testing the application.
 1. Optionally, input files may be placed under *C:\SITA_TEST_TASK\IN* before deploying the application or file(s) may also be placed after application is deployed on any servlet container like tomcat.
 2. To run the application on Tomcat place the generated war file in *%CATALINA_HOME%\webapps* and start Tomcat server. 
-3. You may also run the application on provided embedded jetty server through maven.
-4. To run the application on Tomcat from maven, run **mvn clean install tomcat:run-war** command from command prompt.
+3. You may also run the application on provided embedded Tomcat\Jetty server through maven.
+4. To run the application on **Tomcat** from **maven**, run **mvn clean install tomcat:run-war** command from command prompt.
 5. To run the application on jetty from maven, run **mvn clean install jetty:run** command from command prompt.
-6. To check if application is up and running hit following URL:
-http://localhost:8080/sita-test-task/
-
+6. To check if application is up and running hit following URL: http://localhost:8080/sita-test-task/
 7. Verify the results in *C:\SITA_TEST_TASK\OUT*, *C:\SITA_TEST_TASK\PROCESSED* and *C:\SITA_TEST_TASK\ERROR*.
-8. Log location *C:\SITA_TEST_TASK\logs*
+8. Application Log location *C:\SITA_TEST_TASK\logs\sitaTestTask.log*
 
 ## Process Flow
 1. When Tomcat/Glassfish start-up and application is deployed, the *inbound-channel-adapter* will start automatically since we have configured auto-startup value to true.
